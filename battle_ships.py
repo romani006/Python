@@ -1,24 +1,24 @@
 import random
 
 user_map = [
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0]
+    ["0", "0", "0", "0"],
+    ["0", "0", "0", "0"],
+    ["0", "0", "0", "0"],
+    ["0", "0", "0", "0"]
 ]
 
 opponent_map = [
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0]
+    ["0", "0", "0", "0"],
+    ["0", "0", "0", "0"],
+    ["0", "0", "0", "0"],
+    ["0", "0", "0", "0"]
 ]
 
 user_guesses = [
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0]
+    ["0", "0", "0", "0"],
+    ["0", "0", "0", "0"],
+    ["0", "0", "0", "0"],
+    ["0", "0", "0", "0"]
 ]
 
 failure = [0, 0, 0, 0, 0, 0]
@@ -63,18 +63,17 @@ for i in failure:
         failure.append(0)
         continue
 
-    locationx = coordinate_converter(locationx)
     locationy = coordinate_converter(locationy)
 
     locationx -= 1
     locationy -= 1
 
-    if user_map[locationy][locationx] == 1:
+    if user_map[locationy][locationx] == "1":
         print("Coordinate already used, try again.")
         failure.append(0)
         continue
     else:
-        user_map[locationy][locationx] = 1
+        user_map[locationy][locationx] = "1"
         ship_count -= 1
 
     if ship_count == 0:
@@ -116,27 +115,21 @@ for i in failure:
         failure.append(0)
         continue
 
-    locationx = coordinate_converter(locationx)
     locationy = coordinate_converter(locationy)
 
     locationx -= 1
     locationy -= 1
 
-    if opponent_map[locationy][locationx] == 1:
+    if opponent_map[locationy][locationx] == "1":
         failure.append(0)
         continue
     else:
-        opponent_map[locationy][locationx] = 1
+        opponent_map[locationy][locationx] = "1"
         ship_count -= 1
 
     if ship_count == 0:
         break
 
-print("Opponent ship locations (test)")
-print(opponent_map[0])
-print(opponent_map[1])
-print(opponent_map[2])
-print(opponent_map[3])
 
 def ship_standings():
     print("Here are your ships standings: ")
@@ -164,7 +157,7 @@ while True:
 
     # user guesses
 
-    if user_turn == True:
+    if user_turn:
         user_guessx = (input(f"Enter an x coordinate for the location of an opponent ship (1-4, {opponent_ships} ships remaining): "))
         try:
             user_guessx = int(user_guessx)
@@ -187,10 +180,12 @@ while True:
             print("Invalid number entered, try again.")
             continue
 
+        user_guessy = coordinate_converter(user_guessy)
+
         user_guessx -= 1
         user_guessy -= 1
 
-        if opponent_map[user_guessy][user_guessx] == 1:
+        if opponent_map[user_guessy][user_guessx] == "1":
             print("Hit!")
             opponent_map[user_guessy][user_guessx] = "X"
             user_guesses[user_guessy][user_guessx] = "X"
@@ -210,7 +205,8 @@ while True:
 
     # opponent guess
 
-    if opponent_turn == True:
+    if opponent_turn:
+
         print("Opponent is making their guess...")
         opponent_guessx = (random.randint(1, 4))
         try:
@@ -233,7 +229,7 @@ while True:
         opponent_guessx -= 1
         opponent_guessy -= 1
 
-        if user_map[opponent_guessy][opponent_guessx] == 1:
+        if user_map[opponent_guessy][opponent_guessx] == "1":
             print("Hit!")
             user_map[opponent_guessy][opponent_guessx] = "X"
             user_ships -= 1
